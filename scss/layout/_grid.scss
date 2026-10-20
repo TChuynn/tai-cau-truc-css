@@ -1,0 +1,68 @@
+// ==========================================
+// GRID SYSTEM IMPLEMENTATION
+// ==========================================
+@use "sass:math";
+@use "../abstracts/variables" as vars;
+@use "../abstracts/mixins" as mix;
+
+// Base Container
+.container {
+  width: 100%;
+  max-width: vars.$container-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: math.div(vars.$grid-gutter, 2);
+  padding-right: math.div(vars.$grid-gutter, 2);
+}
+
+.container-fluid {
+  width: 100%;
+  padding-left: math.div(vars.$grid-gutter, 2);
+  padding-right: math.div(vars.$grid-gutter, 2);
+}
+
+// Row
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -(math.div(vars.$grid-gutter, 2));
+  margin-right: -(math.div(vars.$grid-gutter, 2));
+}
+
+// Column Placeholder for shared styles
+%col-base {
+  position: relative;
+  width: 100%;
+  padding-left: math.div(vars.$grid-gutter, 2);
+  padding-right: math.div(vars.$grid-gutter, 2);
+  min-height: 1px;
+}
+
+// Apply %col-base to default columns
+@for $i from 1 through vars.$grid-columns {
+  .col-#{$i} {
+    @extend %col-base;
+    flex: 0 0 math.percentage(math.div($i, vars.$grid-columns));
+    max-width: math.percentage(math.div($i, vars.$grid-columns));
+  }
+}
+
+// Responsive Grid Columns (.col-sm-*, .col-md-*, .col-lg-*, .col-xl-*)
+@each $bp-name, $bp-width in vars.$breakpoints {
+  // Apply %col-base for all responsive variants
+  @for $i from 1 through vars.$grid-columns {
+    .col-#{$bp-name}-#{$i} {
+      @extend %col-base;
+    }
+  }
+
+  // Generate responsive widths inside media queries
+  @include mix.respond-to($bp-name) {
+    @for $i from 1 through vars.$grid-columns {
+      .col-#{$bp-name}-#{$i} {
+        flex: 0 0 math.percentage(math.div($i, vars.$grid-columns));
+        max-width: math.percentage(math.div($i, vars.$grid-columns));
+      }
+    }
+  }
+}

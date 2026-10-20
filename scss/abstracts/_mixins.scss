@@ -1,0 +1,18 @@
+// ==========================================
+// MIXINS
+// ==========================================
+@use "sass:map";
+@use "variables" as vars;
+
+/// Mixin respond-to breakpoint
+/// @param {String} $breakpoint - sm, md, lg, xl hoặc giá trị tùy chỉnh
+@mixin respond-to($breakpoint) {
+  @if map.has-key(vars.$breakpoints, $breakpoint) {
+    $breakpoint-value: map.get(vars.$breakpoints, $breakpoint);
+    @media screen and (min-width: $breakpoint-value) {
+      @content;
+    }
+  } @else {
+    @warn "Không tìm thấy breakpoint '#{$breakpoint}' trong map $breakpoints.";
+  }
+}

@@ -1,0 +1,14 @@
+// ==========================================
+// GRID SYSTEM VARIABLES & BREAKPOINTS
+// ==========================================
+
+$grid-columns: 12 !default;
+$grid-gutter: 20px !default;
+$container-max-width: 1200px !default;
+
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
